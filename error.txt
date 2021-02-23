@@ -1,0 +1,17 @@
+el error ocurre  cuando la app es installada con la opcion --editable, cuando se instala sin esta opcion funciona 
+
+-create password:
+    necesita:
+        - sitio o apllicacion 
+        - usuario (opcional)
+        - contraseña (generada o insertada)
+
+-generador de contraseñas:
+    - longitud
+    - mayusculas
+    - simbolos
+    - numeros
+
+- get password:
+    necesita:
+        - 
