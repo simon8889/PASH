@@ -1,6 +1,10 @@
 import click
+import colorama
 from PyInquirer import prompt
 from prompt_toolkit.validation import Validator, ValidationError
+from pash.cli_utils.cli_styles import style
+
+colorama.init()
 
 class NumberValidator(Validator):
     def validate(self, document):
@@ -17,15 +21,24 @@ def password_questions():
             "name": "Lowercase abc",
             "checked": True
         },
-        {"name": "Upercase ABC"},
-        {"name": "Numbers 123"},
-        {"name": "Symbols $#-"}
+        {
+            "name": "Upercase ABC",
+            "checked": True
+        },
+        {
+            "name": "Numbers 123",
+            "checked": True
+        },
+        {
+            "name": "Symbols $#-",
+            "checked": True
+        }
     ]
     
     questions = [
         {
             "type": "input",
-            "name": "lenght",
+            "name": "length",
             "message": "length of your password",
             "default": "15",
             "validate": NumberValidator
@@ -37,7 +50,36 @@ def password_questions():
             "choices": type_options,
         }
     ]
-    return prompt(questions)
+    return prompt(questions, style=style)
+
+
+def user_site_questions():
+    questions = [
+        {
+            "type": "input",
+            "name": "site",
+            "message": "enter the site or app for the password: ",
+            "validate": lambda x: len(x) > 0
+        },
+        {
+            "type": "input",
+            "name": "user",
+            "message": "introduce the user (optional if the site is unique in the database, it must be unique per site): ",
+        }
+    ]
+    return prompt(questions,style=style)
+
+def one_password_question():
+    questions = [
+        {
+            "type": "input",
+            "name": "password",
+            "message": "enter your password: ",
+            "validate": lambda x: len(x) > 0
+        }
+    ]
+    return prompt(questions,style=style)
+
 
 class question_yes_or_not:
     def __init__(self,text):
@@ -50,5 +92,5 @@ class question_yes_or_not:
         elif answer == "n":
             return False
         else:
-            click.echo("invalid answer")
+            click.secho("invalid answer", fg = "red")
             return self.execute()

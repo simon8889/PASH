@@ -1,21 +1,26 @@
 import json
+import re
 from json.decoder import JSONDecodeError
 import click
 import os
 import pymongo
+import colorama
+
+colorama.init()
 
 def get_url():
     try: 
-        settings = os.path.abspath("../settings.json")
+        settings = os.path.abspath("pash/settings.json")
         with open(settings, "r") as f:
-            try:
+            try: 
                 data = json.load(f)
                 return data["db_url"]
             except JSONDecodeError:
-                click.echo("please config the db run 'pash config setdb <db url>'")
+                click.secho("please config the db run 'pash config setdb <db url>'", fg = "yellow")
                 return False
     except:
-        click.echo("please config the db run 'pash config setdb <db url>'")
+        click.secho("please config the db run 'pash config setdb <db url>'", fg = "yellow")
+        return False
 
 class connection:
     def __init__(self):
@@ -29,7 +34,7 @@ class connection:
             self.__client.server_info()
             return True
         except:
-            click.echo("can´t connect with the database")
+            click.secho("can´t connect with the database", fg = "red")
             return False
     
     def get_client(self):

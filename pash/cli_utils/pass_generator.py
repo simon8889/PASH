@@ -67,3 +67,22 @@ class generator:
         else:
             self.password = ""
             return self.generate_pass()
+
+def get_generator_by_questions(answers):
+    types = list(map(lambda x: x.split(" ")[0],answers["types"]))
+    length = int(answers["length"])
+    caps = False
+    lows = False
+    nums = False
+    symb = False
+    if "Lowercase" in types:
+        lows = True
+    if "Upercase" in types:
+        caps = True
+    if "Numbers" in types:
+        nums = True
+    if "Symbols" in types:
+        symb = True
+    if 100 < length or length <= 0:
+        length = 15
+    return generator(length=length, symbols=symb, nums=nums, caps=caps, lows=lows)

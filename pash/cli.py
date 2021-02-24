@@ -24,5 +24,8 @@ class ComplexCLI(click.MultiCommand):
 
 @click.command(cls=ComplexCLI)
 def cli():
-    """Welcome to pash"""
+    """
+    WELCOME TO PASH\n
+    a cli password manager
+    """
     pass

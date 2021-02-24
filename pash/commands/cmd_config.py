@@ -5,6 +5,9 @@ from pash.cli_utils.questions import question_yes_or_not as question
 from pash.cli_utils.connection import connection, get_url
 from pash.cli_utils.crypto_utils import generate_key, load_key
 from json.decoder import JSONDecodeError
+import colorama
+
+colorama.init()
 
 @click.group()
 def cli():
@@ -21,34 +24,39 @@ def set_db_url(url):
         try:
             data = json.load(f)
             if "db_url" in data:
-                ask = question("the database url is already set you want to change it? -- all your current data will be lost --")
+                ask = question("the database url is already set you want to change it? -- all your current data will be changed from database --")
                 if (ask.execute()):
                     data["db_url"] = url
                     f.seek(0)
                     f.truncate()
                     json.dump(data,f,indent=4)
-                    click.echo("db url changed")
+                    click.secho("db url changed", fg = "green")
         except JSONDecodeError:
             data = {
                 "db_url": url
             }
             generate_key()
             json.dump(data,f,indent=4)
-            click.echo("url db set")
+            click.secho("url db set", fg = "green")
 
 @cli.command()
 def connection_status():
     """Test the connection to database"""
     connection_status = connection().test_connection()
     if connection_status:
-        click.echo("the database is connected")
+        click.secho("the database is connected",fg="green")
 
 @cli.command()
 def get_actual_url():
     """Shows the actual database url"""
-    click.echo(get_url())
+    if get_url():
+        click.secho("your actual database url:", fg = "blue")
+        return click.secho(get_url())
 
 @cli.command()
 def get_crypto_key():
     """Shows your crypto key"""
-    click.echo(load_key())
+    key = load_key()
+    if key:
+        click.secho("your actual crypto key:", fg = "blue")
+        return click.echo(load_key())
