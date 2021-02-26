@@ -5,3 +5,4 @@ PyInquirer==1.0.3
 colorama==0.4.4
 progress==1.5
 cryptography==3.4.6
+pyperclip==1.8.2
