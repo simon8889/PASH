@@ -72,13 +72,62 @@ def user_site_questions():
 def one_password_question():
     questions = [
         {
-            "type": "input",
+            "type": "password",
             "name": "password",
             "message": "enter your password: ",
             "validate": lambda x: len(x) > 0
         }
     ]
     return prompt(questions,style=style)
+
+def password_list_question(password_list, message):
+    choices = [{
+        "name": "CANCEL",
+        "value": False 
+    }]
+    for i in password_list:
+        user = None if "user" not in i else i["user"]
+        site = i["site"]
+        option = {
+            "name": f"Site: {site} - User: {user}",
+            "value": i
+        }
+        choices.append(option)
+
+
+    questions = [
+        {
+            "type": "list",
+            "name": "password_selected",
+            "message": message,
+            "choices": choices
+        }
+    ]
+    return prompt(questions, style=style)
+
+def files_list_question(file_list,message):
+    choices = [{
+        "name": "CANCEL",
+        "value": False 
+    }]
+    
+    for i in file_list:
+        option = {
+            "name": i,
+            "value": i
+        }
+        choices.append(option)
+    
+    questions = [
+        {
+            "type": "list",
+            "name": "file_selected",
+            "message": message,
+            "choices": choices
+        }
+    ]
+    return prompt(questions, style=style)
+        
 
 
 class question_yes_or_not:

@@ -2,7 +2,6 @@ import random as rdm
 import string
 
 
-
 def split_string(string):
     return [x for x in string]
     

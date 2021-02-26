@@ -34,6 +34,9 @@ class NewStorePass(DbActions):
         return pass_dict
     
     def store_it(self):
+        if self.password == None:
+            click.secho("An error occurred while trying to store the pass", fg = "red")
+            return False
         try:
             if self.is_user_needed() and self.user == None:
                 click.secho("you need to specify the user because there is already a pass for this site", fg = "yellow")
