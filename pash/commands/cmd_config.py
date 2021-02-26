@@ -5,6 +5,7 @@ from pash.cli_utils.questions import question_yes_or_not as question
 from pash.cli_utils.connection import connection, get_url
 from pash.cli_utils.crypto_utils import generate_key, load_key
 from pash.cli_utils.config_mode_utils import  get_show_password_mode, change_show_password_mode
+from pash.cli_utils.backup_utils import generate_backup_folder
 from json.decoder import JSONDecodeError
 import colorama
 
@@ -40,6 +41,7 @@ def set_db_url(url):
                 "show_password": False
             }
             generate_key()
+            generate_backup_folder()
             json.dump(data,f,indent=4)
             click.secho("url db set", fg = "green")
 
