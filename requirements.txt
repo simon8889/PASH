@@ -4,3 +4,4 @@ dnspython==2.1.0
 PyInquirer==1.0.3
 colorama==0.4.4
 progress==1.5
+cryptography==3.4.6
