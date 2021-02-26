@@ -21,13 +21,16 @@ def see_backup():
     if backups_folder_exists():
         mypath = os.path.abspath("pash/backups")
         file_list = [f for f in os.listdir(mypath) if os.path.isfile(os.path.join(mypath, f)) and ".json" in f ]
-        file_selected = files_list_question(file_list, "select the backup you want to SEE")["file_selected"]
-        if file_selected:
-            with open(f"{mypath}/{file_selected}", "r+") as f:
-                click.secho("Backup content:", fg = "blue")
-                click.secho(f.read())
+        if len(file_list) > 0:
+            file_selected = files_list_question(file_list, "select the backup you want to SEE")["file_selected"]
+            if file_selected:
+                with open(f"{mypath}/{file_selected}", "r+") as f:
+                    click.secho("Backup content:", fg = "blue")
+                    click.secho(f.read())
+            else:
+                click.secho("Canceled", fg="yellow")
         else:
-            click.secho("Canceled", fg="yellow")
+            click.secho("No backups found", fg ="yellow")
 
     
 
@@ -55,15 +58,18 @@ def delete_backup():
     if backups_folder_exists():
         mypath = os.path.abspath("pash/backups")
         file_list = [f for f in os.listdir(mypath) if os.path.isfile(os.path.join(mypath, f)) and ".json" in f ]
-        file_selected = files_list_question(file_list, "select the backup you want to DELETE")["file_selected"]
-        if file_selected:
-            try:
-                os.remove(f"{mypath}/{file_selected}")
-                click.secho("Backup deleted", fg = "green")
-            except:
-                click.secho("error deleting file", fg="red")
+        if len(file_list) > 0:
+            file_selected = files_list_question(file_list, "select the backup you want to DELETE")["file_selected"]
+            if file_selected:
+                try:
+                    os.remove(f"{mypath}/{file_selected}")
+                    click.secho("Backup deleted", fg = "green")
+                except:
+                    click.secho("error deleting file", fg="red")
+            else:
+                click.secho("Canceled", fg="yellow")
         else:
-            click.secho("Canceled", fg="yellow")
+            click.secho("No backups found", fg ="yellow")
 
 @cli.command()
 def set_backup():
@@ -71,8 +77,11 @@ def set_backup():
     if backups_folder_exists():
         mypath = os.path.abspath("pash/backups")
         file_list = [f for f in os.listdir(mypath) if os.path.isfile(os.path.join(mypath, f)) and ".json" in f ]
-        file_selected = files_list_question(file_list, "select the backup you want to SET IN THE DATABASE")["file_selected"]
-        with open(f"{mypath}/{file_selected}", "r+") as f:
-            if Backups().set_backup(f):
-                click.secho("Backup seted in the database", fg = "green")
-            
+        if len(file_list) > 0:
+            file_selected = files_list_question(file_list, "select the backup you want to SET IN THE DATABASE")["file_selected"]
+            with open(f"{mypath}/{file_selected}", "r+") as f:
+                if Backups().set_backup(f):
+                    click.secho("Backup seted in the database", fg = "green")
+        else:
+            click.secho("No backups found", fg ="yellow")
+                
